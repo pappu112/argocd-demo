@@ -1,19 +1,15 @@
-apiVersion: apps/v1
-kind: Deployment
+apiVersion: v1
+kind: Service
 metadata:
-  name: private-reg
+  labels:
+    app: nginx
+  name: nginx
+  namespace: default
 spec:
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 80
   selector:
-    matchLabels:
-      app: py-app
-  replicas: 1
-  template:
-    metadata:
-      labels:
-        app: py-app
-    spec:
-     containers:
-      - name: private-reg-container
-        image: registry2021.jfrog.io/default-docker-virtual/flaskapp:v1.1
-     imagePullSecrets:
-       - name: regcred
+    app: nginx
+  type: NodePort
